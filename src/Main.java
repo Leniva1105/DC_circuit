@@ -1,20 +1,27 @@
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Main {
 
     public static void main(String[] args) {
         ElectricalCircuit ec = new ElectricalCircuit(System.in);
 
-        for (Branch branch: ec.branches) {
+        for (Branch branch : ec.branches) {
             System.out.println(branch);
         }
 
         System.out.println(ec.isCircuitContinuous());
 
-        for (int i = 0; i < 100; i++) {
-            CycleSet sofc = new CycleSet(ec);
-            for (Cycle cycle: sofc.cycles) {
-                System.out.println(cycle);
-            }
-            System.out.println();
+        System.out.println(CycleSet.getAllNodes(ec));
+
+        CycleSet cs;
+        {
+            cs = new CycleSet(ec);
+        } while (cs.isSetCorrect(ec) == false);
+
+        for (Cycle cycle: cs.cycles) {
+            System.out.println(cycle);
         }
     }
 }
