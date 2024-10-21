@@ -1,33 +1,33 @@
 public class Branch {
-    public int startingNode;
+
+    public int startNode;
     public int endNode;
     public double emf;
     public final double resistance;
-    public int number;
+    public int id;
 
-
-    public Branch(int startingNode,
+    public Branch(int startNode,
                   int endNode,
                   double emf,
                   double resistance,
-                  int number
+                  int id
     ) {
-        this.startingNode = startingNode;
+        this.startNode = startNode;
         this.endNode = endNode;
         this.emf = emf;
         this.resistance = resistance;
-        this.number = number;
+        this.id = id;
     }
 
     @Override
     public Branch clone() {
-        return new Branch(startingNode, endNode, emf, resistance, number);
+        return new Branch(startNode, endNode, emf, resistance, id);
     }
 
     @Override
     public String toString() {
         return "Branch{" +
-                "startingNode=" + startingNode +
+                "startingNode=" + startNode +
                 ", endNode=" + endNode +
                 ", emf=" + emf +
                 ", resistance=" + resistance +
