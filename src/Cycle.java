@@ -5,13 +5,13 @@ public class Cycle {
     public static class BranchInCycle {
 
         public Branch branchInCycle;
-        public Boolean inversion;
+        public Boolean reverse;
 
         public BranchInCycle(Branch branchInCycle,
-                             Boolean inversion
+                             Boolean reverse
         ) {
             this.branchInCycle = branchInCycle;
-            this.inversion = inversion;
+            this.reverse = reverse;
         }
 
         @Override
@@ -19,7 +19,7 @@ public class Cycle {
             return "{" + branchInCycle.id + "{" +
                     branchInCycle.startNode +
                     " , " + branchInCycle.endNode +
-                    "}: " + inversion +
+                    "}: " + reverse +
                     '}';
         }
     }
@@ -40,18 +40,14 @@ public class Cycle {
                 int indexRandomBranch = (int) (Math.random() * inappropriate.branches.size());
                 Branch randomBranch = inappropriate.branches.get(indexRandomBranch);
 
-                if (end == randomBranch.startNode) {
-                    addBranchInCycle(new BranchInCycle(randomBranch, false));
-                    end = randomBranch.endNode;
-                    used.removeBranch(indexRandomBranch);
-                    inappropriate = used.clone();
-                } else if (end == randomBranch.endNode) {
-                    addBranchInCycle(new BranchInCycle(randomBranch, true));
-                    end = randomBranch.startNode;
-                    used.removeBranch(indexRandomBranch);
+                boolean reverse = end == randomBranch.endNode;
+                if (end == randomBranch.startNode || reverse) {
+                    addBranchInCycle(new BranchInCycle(randomBranch, reverse));
+                    end = reverse ? randomBranch.startNode : randomBranch.endNode;
+                    used.removeBranch(randomBranch);
                     inappropriate = used.clone();
                 } else {
-                    inappropriate.removeBranch(indexRandomBranch);
+                    inappropriate.removeBranch(randomBranch);
                 }
             }
 
