@@ -53,6 +53,8 @@ public class Cycle {
 
             if (begin == end){
                 return;
+            } else {
+                branchesInCycles.clear();
             }
         }
     }

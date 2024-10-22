@@ -25,7 +25,7 @@ public class Main {
             } else{
                 System.out.println("Цепь не содержит мостов");
                 int numberOfConnectedComponents = getNumberOfConnectedComponents(ec);
-                System.out.println("Число компонентов связности:");
+                System.out.println("Число компонент связности:");
                 System.out.println(numberOfConnectedComponents);
 
                 CycleSet cs;
