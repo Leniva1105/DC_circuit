@@ -19,7 +19,7 @@ public class CycleSet {
     }
 
     public boolean isSetCorrect(ElectricalCircuit ec, int numberOfConnectedComponents) {
-        return cycles.size() == ec.branches.size() - Main.getAllNodes(ec).size() + numberOfConnectedComponents;
+        return cycles.size() == ec.branches.size() - ec.getAllNodes().size() + numberOfConnectedComponents;
     }
 
 }

@@ -26,8 +26,8 @@ public class Branch {
 
     @Override
     public String toString() {
-        return "Branch["+id+"]: {" +
-                "startingNode=" + startNode +
+        return "Branch[" + id + "]: {" +
+                "startNode=" + startNode +
                 ", endNode=" + endNode +
                 ", emf=" + emf +
                 ", resistance=" + resistance +

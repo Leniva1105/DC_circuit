@@ -12,7 +12,7 @@ public class ElectricalCircuit {
     public ElectricalCircuit(InputStream is) {
         branches = new ArrayList<>();
         Scanner scanner = new Scanner(is);
-        int id = 0;
+        int id = 1;
 
         while (true) {
             int startingNode = scanner.nextInt();
@@ -45,6 +45,59 @@ public class ElectricalCircuit {
             }
         }
         return true;
+    }
+
+    public ArrayList<Integer> getAllNodes() {
+        Set<Integer> nodesSet = new HashSet<>();
+
+        for (Branch branch : branches) {
+            nodesSet.add(branch.startNode);
+            nodesSet.add(branch.endNode);
+        }
+
+        return new ArrayList<>(nodesSet);
+    }
+
+    public boolean hasNoBridges() {
+        int numberOfConnectedComponents = getConnectedComponentsCount();
+        ElectricalCircuit ecClone = clone();
+
+        for (Branch branch: branches) {
+            ecClone.removeBranch(branch);
+
+            if (numberOfConnectedComponents < ecClone.getConnectedComponentsCount()) {
+                return false;
+            }
+            ecClone.addBranch(branch);
+        }
+        return true;
+    }
+
+    public int getConnectedComponentsCount() {
+        ArrayList<Integer> allNodes = getAllNodes();
+        Set<Integer> visited = new HashSet<>();
+        int componentsCount = 0;
+
+        for (int node : allNodes) {
+            if (!visited.contains(node)) {
+                dfs(node, visited);
+                componentsCount++;
+            }
+        }
+
+        return componentsCount;
+    }
+
+    private void dfs(int node, Set<Integer> visited) {
+        visited.add(node);
+
+        for (Branch branch : branches) {
+            if (branch.startNode == node && !visited.contains(branch.endNode)) {
+                dfs(branch.endNode, visited);
+            } else if (branch.endNode == node && !visited.contains(branch.startNode)) {
+                dfs(branch.startNode, visited);
+            }
+        }
     }
 
     public void addBranch(Branch b) {
