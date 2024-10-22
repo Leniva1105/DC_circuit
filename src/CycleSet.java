@@ -21,22 +21,8 @@ public class CycleSet {
         }
     }
 
-    public static ArrayList<Integer> getAllNodes(ElectricalCircuit ec) {
-        Set<Integer> nodesSet = new HashSet<>();
-
-        for (Branch branch : ec.branches) {
-            nodesSet.add(branch.startNode);
-            nodesSet.add(branch.endNode);
-        }
-
-        return new ArrayList<>(nodesSet);
+    public boolean isSetCorrect(ElectricalCircuit ec, int numberOfConnectedComponents) {
+        return cycles.size() == ec.branches.size() - Main.getAllNodes(ec).size() + numberOfConnectedComponents;
     }
 
-    public boolean isSetCorrect(ElectricalCircuit ec) {
-        if (cycles.size() == ec.branches.size() - getAllNodes(ec).size() +1) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
