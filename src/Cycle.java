@@ -59,6 +59,35 @@ public class Cycle {
         }
     }
 
+    public double sumEmf() {
+        double sumEmf = 0;
+
+        for (BranchInCycle branchInCycle: branchesInCycles) {
+
+            if (branchInCycle.reverse == false){
+                sumEmf += branchInCycle.branchInCycle.emf;
+            } else {
+                sumEmf -= branchInCycle.branchInCycle.emf;
+            }
+        }
+        return sumEmf;
+    }
+
+    public double hasBranch(Branch b) {
+        for (BranchInCycle branchInCycle: branchesInCycles) {
+
+            if (branchInCycle.branchInCycle.id == b.id) {
+
+                if (branchInCycle.reverse == false) {
+                    return 1.0;
+                } else {
+                    return -1.0;
+                }
+            }
+        }
+        return 0.0;
+    }
+
     public void addBranchInCycle(BranchInCycle b) {
         branchesInCycles.add(b);
     }

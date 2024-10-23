@@ -1,5 +1,7 @@
 import exceptions.*;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -25,15 +27,15 @@ public class Main {
         int numberOfConnectedComponents = ec.getConnectedComponentsCount();
         System.out.println("Число компонент связности: " + numberOfConnectedComponents);
 
-        CycleSet cs;
-        do {
-            cs = new CycleSet(ec);
-        } while (cs.isSetCorrect(ec,numberOfConnectedComponents) == false);
+        CycleSet cs = new CycleSet(ec);
 
         System.out.println("Подходящая система циклов:");
         for (Cycle cycle: cs.cycles) {
-            System.out.println(cycle);
+            System.out.println(cycle + "     sumEmf= " + cycle.sumEmf());
         }
-
+        SLE sle = new SLE(cs,ec);
+        ArrayList<Double> contourCurrent = sle.decision(cs);
+        Answer answer = new Answer(ec,cs);
+        answer.getAnswer(ec);
     }
 }

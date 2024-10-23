@@ -104,10 +104,6 @@ public class ElectricalCircuit {
         branches.add(b);
     }
 
-    public void removeBranch(int i) {
-        branches.remove(i);
-    }
-
     public void removeBranch(Branch b) {
         for (int i = 0; i < branches.size(); i++) {
             if (branches.get(i).id == b.id) {
