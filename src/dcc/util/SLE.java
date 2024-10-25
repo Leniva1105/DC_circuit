@@ -1,7 +1,7 @@
-package util;
+package dcc.util;
 
-import elements.CycleSet;
-import elements.ElectricalCircuit;
+import dcc.elements.CycleSet;
+import dcc.elements.ElectricalCircuit;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;

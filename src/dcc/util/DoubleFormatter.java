@@ -1,4 +1,4 @@
-package util;
+package dcc.util;
 
 public class DoubleFormatter {
 

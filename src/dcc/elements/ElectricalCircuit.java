@@ -1,7 +1,7 @@
-package elements;
+package dcc.elements;
 
-import util.DoubleFormatter;
-import util.SLE;
+import dcc.util.DoubleFormatter;
+import dcc.util.SLE;
 
 import java.util.*;
 import java.util.function.Consumer;

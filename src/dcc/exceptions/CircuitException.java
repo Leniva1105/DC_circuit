@@ -1,4 +1,4 @@
-package exceptions;
+package dcc.exceptions;
 
 public abstract class CircuitException extends RuntimeException {
     public CircuitException(String message) {

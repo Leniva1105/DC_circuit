@@ -1,8 +1,8 @@
-package util;
+package dcc.util;
 
-import elements.Cycle;
-import elements.CycleSet;
-import elements.ElectricalCircuit;
+import dcc.elements.Cycle;
+import dcc.elements.CycleSet;
+import dcc.elements.ElectricalCircuit;
 
 public class ElectricalCircuitFormatter {
 
@@ -13,7 +13,7 @@ public class ElectricalCircuitFormatter {
 
         sb.append(SEPARATOR)
           .append("Список ветвей\n");
-        for (elements.Branch branch : ec) {
+        for (dcc.elements.Branch branch : ec) {
             sb.append(branch).append("\n");
         }
 

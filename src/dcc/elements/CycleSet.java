@@ -1,7 +1,7 @@
-package elements;
+package dcc.elements;
 
-import exceptions.CircuitHasBridgesException;
-import exceptions.CircuitIsNotContinuousException;
+import dcc.exceptions.CircuitHasBridgesException;
+import dcc.exceptions.CircuitIsNotContinuousException;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
