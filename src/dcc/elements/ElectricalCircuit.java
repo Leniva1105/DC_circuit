@@ -12,10 +12,12 @@ public class ElectricalCircuit implements Iterable<Branch> {
 
     public ElectricalCircuit() {
         branches = new ArrayList<>();
+        Branch.resetIdCounter();
     }
 
     public ElectricalCircuit(List<Branch> branches) {
         this.branches = (ArrayList<Branch>) branches;
+        Branch.resetIdCounter();
     }
 
     public Branch get(int i) {
