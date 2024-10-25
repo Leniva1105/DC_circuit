@@ -1,12 +1,30 @@
 # Библиотека для расчёта параметров цепи постоянного тока
 
+### Установка
+
+Добавьте следующую запись в build.gradle.kts, если используете Gradle:
+```Gradle
+dependencies {
+
+	implementation("org.ejml:ejml-simple:0.43.1")
+}
+```
+или следующую в pom.xml, если используете Maven:
+```XML
+<dependency>
+    <groupId>org.ejml</groupId>
+    <artifactId>ejml-simple</artifactId>
+    <version>0.43.1</version>
+</dependency>
+```
+Далее скачайте архив с кодом и распакуйте пакет dcc в ваш проект (пока что установка реализована только таким образом).
+
 ### Пример применения
 
 Создаём ветки и добавляем их в список:
 ```Java
 import dcc.elements.Branch;
 ...
-
 
 Branch branch1 = new Branch(1, 2, -1, 42);
 Branch branch2 = new Branch(1, 2, 5, 4);
