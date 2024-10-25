@@ -32,6 +32,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         return branches.isEmpty();
     }
 
+    /**
+     * @return Является ли цепь замкнутой
+     */
     public boolean isCircuitContinuous() {
         HashMap<Integer, Integer> checkMap = new HashMap<>();
 
@@ -49,6 +52,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         return true;
     }
 
+    /**
+     * @return Список всех узлов цепи
+     */
     public ArrayList<Integer> getAllNodes() {
         Set<Integer> nodesSet = new HashSet<>();
 
@@ -60,6 +66,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         return new ArrayList<>(nodesSet);
     }
 
+    /**
+     * @return Имеет ли цепь мосты
+     */
     public boolean hasNoBridges() {
         int numberOfConnectedComponents = getConnectedComponentsCount();
         ElectricalCircuit ecClone = clone();
@@ -75,6 +84,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         return true;
     }
 
+    /**
+     * @return Число компонент связности
+     */
     public int getConnectedComponentsCount() {
         ArrayList<Integer> allNodes = getAllNodes();
         Set<Integer> visited = new HashSet<>();
@@ -115,6 +127,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         }
     }
 
+    /**
+     * @return Токи в ветвях
+     */
     public ArrayList<Double> getCurrents() {
         CycleSet cs = new CycleSet(this);
         SLE sle = new SLE(cs, this);
@@ -136,6 +151,9 @@ public class ElectricalCircuit implements Iterable<Branch> {
         return answer;
     }
 
+    /**
+     * @return Контурные токи
+     */
     public ArrayList<Double> getContourCurrents() {
         CycleSet cs = new CycleSet(this);
         SLE sle = new SLE(cs, this);

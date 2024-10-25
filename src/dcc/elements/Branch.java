@@ -10,6 +10,14 @@ public class Branch {
     private final double emf;
     private final double resistance;
 
+    /**
+     * Конструктор класса Branch (ветвь)
+     *
+     * @param startNode Первый узел ветви
+     * @param endNode Второй узел ветви
+     * @param emf ЭДС (электродвижущая сила)
+     * @param resistance Сопротивление
+     */
     public Branch(int startNode, int endNode, double emf, double resistance) {
         if (startNode <= 0 ||
             endNode <= 0 ||
