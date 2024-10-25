@@ -1,43 +1,42 @@
-import java.io.InputStream;
+package elements;
+
+import util.SLE;
+
 import java.util.*;
+import java.util.function.Consumer;
 
-public class ElectricalCircuit {
+public class ElectricalCircuit implements Iterable<Branch> {
 
-    public ArrayList<Branch> branches;
+    private final ArrayList<Branch> branches;
 
     public ElectricalCircuit() {
         branches = new ArrayList<>();
     }
 
-    public ElectricalCircuit(InputStream is) {
-        branches = new ArrayList<>();
-        Scanner scanner = new Scanner(is);
-        int id = 1;
+    public ElectricalCircuit(List<Branch> branches) {
+        this.branches = (ArrayList<Branch>) branches;
+    }
 
-        while (true) {
-            int startingNode = scanner.nextInt();
-            if (startingNode == -1) {
-                break;
-            }
-            Branch b = new Branch(
-                    startingNode,
-                    scanner.nextInt(),
-                    scanner.nextDouble(),
-                    scanner.nextDouble(),
-                    id++
-            );
-            addBranch(b);
-        }
+    public Branch get(int i) {
+        return branches.get(i);
+    }
+
+    public int size() {
+        return branches.size();
+    }
+
+    public boolean isEmpty() {
+        return branches.isEmpty();
     }
 
     public boolean isCircuitContinuous() {
         HashMap<Integer, Integer> checkMap = new HashMap<>();
 
         for (Branch branch: branches) {
-            int currentValueStart = checkMap.get(branch.startNode) == null ? 0 : checkMap.get(branch.startNode);
-            int currentValueEnd = checkMap.get(branch.endNode) == null ? 0 : checkMap.get(branch.endNode);
-            checkMap.put(branch.startNode, currentValueStart + 1);
-            checkMap.put(branch.endNode, currentValueEnd + 1);
+            int currentValueStart = checkMap.get(branch.startNode() ) == null ? 0 : checkMap.get(branch.startNode() );
+            int currentValueEnd = checkMap.get(branch.endNode() ) == null ? 0 : checkMap.get(branch.endNode() );
+            checkMap.put(branch.startNode() , currentValueStart + 1);
+            checkMap.put(branch.endNode() , currentValueEnd + 1);
         }
         for (int key: checkMap.keySet()) {
             if (checkMap.get(key) == 1) {
@@ -51,8 +50,8 @@ public class ElectricalCircuit {
         Set<Integer> nodesSet = new HashSet<>();
 
         for (Branch branch : branches) {
-            nodesSet.add(branch.startNode);
-            nodesSet.add(branch.endNode);
+            nodesSet.add(branch.startNode() );
+            nodesSet.add(branch.endNode() );
         }
 
         return new ArrayList<>(nodesSet);
@@ -92,10 +91,10 @@ public class ElectricalCircuit {
         visited.add(node);
 
         for (Branch branch : branches) {
-            if (branch.startNode == node && !visited.contains(branch.endNode)) {
-                dfs(branch.endNode, visited);
-            } else if (branch.endNode == node && !visited.contains(branch.startNode)) {
-                dfs(branch.startNode, visited);
+            if (branch.startNode() == node && !visited.contains(branch.endNode() )) {
+                dfs(branch.endNode() , visited);
+            } else if (branch.endNode()  == node && !visited.contains(branch.startNode() )) {
+                dfs(branch.startNode() , visited);
             }
         }
     }
@@ -106,11 +105,40 @@ public class ElectricalCircuit {
 
     public void removeBranch(Branch b) {
         for (int i = 0; i < branches.size(); i++) {
-            if (branches.get(i).id == b.id) {
+            if (branches.get(i).id() == b.id()) {
                 branches.remove(i);
                 break;
             }
         }
+    }
+
+    public ArrayList<Double> getCurrents() {
+        CycleSet cs = new CycleSet(this);
+        SLE sle = new SLE(cs, this);
+        ArrayList<Double> contourCurrents = sle.solve(cs);
+        int branchesCount = size();
+        int cyclesCount = cs.size();
+        ArrayList<Double> answer = new ArrayList<>();
+
+        for (int i = 0; i < branchesCount; i++) {
+            answer.add(0.0);
+
+            for (int j = 0; j < cyclesCount; j++) {
+                answer.set(i, answer.get(i) + cs.get(j).hasBranch(get(i)) * contourCurrents.get(j));
+            }
+        }
+
+        return answer;
+    }
+
+    @Override
+    public Iterator<Branch> iterator() {
+        return branches.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Branch> action) {
+        Iterable.super.forEach(action);
     }
 
     @Override
@@ -127,7 +155,7 @@ public class ElectricalCircuit {
     @Override
     public String toString() {
         return "ElectricalCircuit{" +
-                "addBranch=" + branches +
+                "branches=" + branches +
                 '}';
     }
 }

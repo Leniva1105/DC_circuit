@@ -1,11 +1,15 @@
+package util;
+
+import elements.CycleSet;
+import elements.ElectricalCircuit;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
 
 public class SLE {
 
-    SimpleMatrix matrixSLE;
-    SimpleMatrix vectorFreeFactors;
+    private final SimpleMatrix matrixSLE;
+    private final SimpleMatrix vectorFreeFactors;
 
     public SLE(CycleSet cs, ElectricalCircuit ec) {
         SimpleMatrix c = cs.C(ec);
@@ -16,10 +20,10 @@ public class SLE {
         this.vectorFreeFactors = c.mult(e);
     }
 
-    public ArrayList<Double> decision(CycleSet cs) {
+    public ArrayList<Double> solve(CycleSet cs) {
         SimpleMatrix answerMatrix = matrixSLE.solve(vectorFreeFactors);
         ArrayList<Double> answer = new ArrayList<>();
-        int size = cs.cycles.size();
+        int size = cs.size();
 
         for (int i = 0; i < size; i++) {
             answer.add(answerMatrix.get(i));
