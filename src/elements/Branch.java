@@ -11,13 +11,14 @@ public record Branch(
     public Branch {
         if (startNode <= 0 ||
             endNode <= 0 ||
-            resistance <= 0 ||
+            resistance < 0 ||
             id <= 0
         ) {
             throw new IllegalArgumentException();
         }
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
     public Branch clone() {
         return new Branch(startNode, endNode, emf, resistance, id);

@@ -10,9 +10,6 @@ public class ElectricalCircuitFormatter {
 
     public static String format(ElectricalCircuit ec) {
         StringBuilder sb = new StringBuilder();
-        sb.append(SEPARATOR)
-          .append(ec.isCircuitContinuous() ? "Цепь замкнута\n" : "Цепь не замкнута\n")
-          .append(ec.hasNoBridges() ? "Цепь не имеет мостов\n" : "Цепь содержит мосты\n");
 
         sb.append(SEPARATOR)
           .append("Список ветвей\n");
@@ -20,9 +17,10 @@ public class ElectricalCircuitFormatter {
             sb.append(branch).append("\n");
         }
 
+        String nodesString = ec.getAllNodes().toString();
         sb.append(SEPARATOR)
           .append("Список узлов\n")
-          .append(ec.getAllNodes())
+          .append(nodesString, 1, nodesString.length() - 1)
           .append('\n');
 
         sb.append(SEPARATOR)
@@ -30,20 +28,34 @@ public class ElectricalCircuitFormatter {
           .append(ec.getConnectedComponentsCount())
           .append('\n');
 
+        sb.append(SEPARATOR)
+          .append(ec.isCircuitContinuous() ? "Цепь замкнута\n" : "Цепь не замкнута\n")
+          .append(ec.hasNoBridges() ? "Цепь не имеет мостов\n" : "Цепь содержит мосты\n");
+
         CycleSet cs = new CycleSet(ec);
 
         sb.append(SEPARATOR)
           .append("Подходящая система циклов\n");
         for (Cycle cycle: cs) {
             sb.append(cycle)
-              .append("\nСумма ЭДС = ")
-              .append(cycle.sumEmf())
               .append('\n');
        }
 
         sb.append(SEPARATOR)
+          .append("Система линейных уравнений\n");
+        SLE sle = new SLE(cs, ec);
+        sb.append(sle);
+
+        String contourCurrentsString = ec.getContourCurrents().toString();
+        sb.append(SEPARATOR)
+          .append("Контурные токи\n")
+          .append(contourCurrentsString, 1, contourCurrentsString.length() - 1)
+          .append('\n');
+
+        String currentsString = ec.getCurrents().toString();
+        sb.append(SEPARATOR)
           .append("Токи в ветвях\n")
-          .append(ec.getCurrents());
+          .append(currentsString, 1, currentsString.length() - 1);
 
         return sb.toString();
     }

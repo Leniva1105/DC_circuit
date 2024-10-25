@@ -49,20 +49,6 @@ public class Cycle implements Iterable<Cycle.BranchInCycle> {
         }
     }
 
-    public double sumEmf() {
-        double sumEmf = 0;
-
-        for (BranchInCycle branchInCycle: branchesInCycles) {
-
-            if (branchInCycle.reverse == false){
-                sumEmf += branchInCycle.branch.emf();
-            } else {
-                sumEmf -= branchInCycle.branch.emf();
-            }
-        }
-        return sumEmf;
-    }
-
     public double hasBranch(Branch b) {
         for (BranchInCycle branchInCycle: branchesInCycles) {
             if (branchInCycle.branch.id() == b.id()) {
@@ -95,12 +81,11 @@ public class Cycle implements Iterable<Cycle.BranchInCycle> {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        branchesInCycles.forEach((BranchInCycle bic) -> {
-            result.append('\t').append(bic).append('\n');
-        });
+        branchesInCycles.forEach((BranchInCycle bic) ->
+                result.append('\t')
+                      .append(bic)
+                      .append('\n'));
 
-        return "Цикл {\n" +
-                result +
-                "}";
+        return "Цикл {\n" + result + "}";
     }
 }

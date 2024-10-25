@@ -1,5 +1,6 @@
 package elements;
 
+import util.DoubleFormatter;
 import util.SLE;
 
 import java.util.*;
@@ -124,11 +125,23 @@ public class ElectricalCircuit implements Iterable<Branch> {
             answer.add(0.0);
 
             for (int j = 0; j < cyclesCount; j++) {
-                answer.set(i, answer.get(i) + cs.get(j).hasBranch(get(i)) * contourCurrents.get(j));
+                double current = answer.get(i) + cs.get(j).hasBranch(get(i)) * contourCurrents.get(j);
+                current = DoubleFormatter.round(current, 2);
+                answer.set(i, current);
             }
         }
 
         return answer;
+    }
+
+    public ArrayList<Double> getContourCurrents() {
+        CycleSet cs = new CycleSet(this);
+        SLE sle = new SLE(cs, this);
+        ArrayList<Double> contourCurrents = sle.solve(cs);
+
+        contourCurrents.replaceAll(value -> DoubleFormatter.round(value, 2));
+
+        return contourCurrents;
     }
 
     @Override
@@ -141,6 +154,7 @@ public class ElectricalCircuit implements Iterable<Branch> {
         Iterable.super.forEach(action);
     }
 
+    @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
     public ElectricalCircuit clone() {
         ElectricalCircuit newEC = new ElectricalCircuit();

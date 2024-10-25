@@ -5,6 +5,7 @@ import elements.ElectricalCircuit;
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.ArrayList;
+import java.util.Formatter;
 
 public class SLE {
 
@@ -29,5 +30,23 @@ public class SLE {
             answer.add(answerMatrix.get(i));
         }
         return answer;
+    }
+
+    @Override
+    public String toString() {
+        Formatter formatter = new Formatter();
+
+        for (int i = 0; i < matrixSLE.getNumRows(); i++) {
+            for (int j = 0; j < matrixSLE.getNumCols(); j++) {
+                formatter.format("% .1f⋅i%d ", matrixSLE.get(i, j), j + 1);
+
+                if (j != matrixSLE.getNumCols() - 1) {
+                    formatter.format("+ ");
+                }
+            }
+            formatter.format("= % .1f\n", vectorFreeFactors.get(i, 0));
+        }
+
+        return formatter.toString();
     }
 }
