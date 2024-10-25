@@ -2,7 +2,7 @@
 
 ### Установка
 
-Добавьте следующую запись в build.gradle.kts, если используете Gradle:
+Добавьте следующую зависимость в build.gradle.kts, если используете Gradle:
 ```Gradle
 dependencies {
 
