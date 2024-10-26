@@ -24,9 +24,8 @@ dependencies {
 ### Пример применения
 В данном примере будет рассмотрена цепь постоянного тока следующего вида:
 <p align="center">
-    <img src="https://github.com/user-attachments/assets/0f66eddd-c79f-438f-8810-ec30eec15609" alt="Цепь постоянного тока">
+    <img src="https://github.com/user-attachments/assets/d5065a40-327b-47c3-b3b7-a7ac7f54fe1b" alt="Цепь постоянного тока">
 </p>
-<!-- ![Цепь постоянного тока](https://github.com/user-attachments/assets/0f66eddd-c79f-438f-8810-ec30eec15609) -->
 
 Создаём ветки и добавляем их в список:
 ```Java
