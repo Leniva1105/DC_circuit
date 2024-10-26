@@ -1,15 +1,15 @@
 # Библиотека для расчёта параметров цепи постоянного тока
 
-### Установка
+### Подключение
 
-Добавьте следующую зависимость в build.gradle.kts, если используете Gradle:
+Добавьте следующую зависимость в файл build.gradle.kts, если используете Gradle:
 ```Gradle
 dependencies {
 
 	implementation("org.ejml:ejml-simple:0.43.1")
 }
 ```
-или следующую в pom.xml, если используете Maven:
+или следующую, в файл pom.xml, если используете Maven:
 ```XML
 <dependency>
     <groupId>org.ejml</groupId>
@@ -17,9 +17,16 @@ dependencies {
     <version>0.43.1</version>
 </dependency>
 ```
-Далее скачайте архив с кодом и распакуйте пакет dcc в ваш проект (пока что установка реализована только таким образом).
+и синхронизируйте проект.
+
+Далее скачайте архив с кодом и распакуйте пакет **dcc** в ваш проект (пока что подключение реализовано только таким образом).
 
 ### Пример применения
+В данном примере будет рассмотрена цепь постоянного тока следующего вида:
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/0f66eddd-c79f-438f-8810-ec30eec15609" alt="Цепь постоянного тока">
+</p>
+<!-- ![Цепь постоянного тока](https://github.com/user-attachments/assets/0f66eddd-c79f-438f-8810-ec30eec15609) -->
 
 Создаём ветки и добавляем их в список:
 ```Java
@@ -49,6 +56,7 @@ ElectricalCircuit ec = new ElectricalCircuit(branches);
 >
 > - isCircuitContinuous()
 > - hasNoBridges()
+> - getAllNodes()
 > - getConnectedComponentsCount()
 > - getContourCurrents()
 > - getCurrents()
@@ -59,7 +67,7 @@ ElectricalCircuit ec = new ElectricalCircuit(branches);
 import dcc.util.ElectricalCircuitFormatter;
 ...
 
-ElectricalCircuitFormatter.format(ec)
+ElectricalCircuitFormatter.format(ec);
 ```
 
 Пример вывода:
