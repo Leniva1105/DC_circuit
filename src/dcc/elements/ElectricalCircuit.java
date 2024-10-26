@@ -9,14 +9,17 @@ import java.util.function.Consumer;
 public class ElectricalCircuit implements Iterable<Branch> {
 
     private final ArrayList<Branch> branches;
+    private final CycleSet cycleSet;
 
-    public ElectricalCircuit() {
+    public ElectricalCircuit(CycleSet cs) {
         branches = new ArrayList<>();
+        cycleSet = cs;
         Branch.resetIdCounter();
     }
 
     public ElectricalCircuit(List<Branch> branches) {
         this.branches = (ArrayList<Branch>) branches;
+        cycleSet = new CycleSet(this);
         Branch.resetIdCounter();
     }
 
@@ -64,6 +67,13 @@ public class ElectricalCircuit implements Iterable<Branch> {
         }
 
         return new ArrayList<>(nodesSet);
+    }
+
+    /**
+     * @return Подходящая система циклов
+     */
+    public CycleSet getCycleSet() {
+        return cycleSet;
     }
 
     /**
@@ -131,19 +141,18 @@ public class ElectricalCircuit implements Iterable<Branch> {
      * @return Токи в ветвях
      */
     public ArrayList<Double> getCurrents() {
-        CycleSet cs = new CycleSet(this);
-        SLE sle = new SLE(cs, this);
-        ArrayList<Double> contourCurrents = sle.solve(cs);
+        SLE sle = new SLE(cycleSet, this);
+        ArrayList<Double> contourCurrents = sle.solve(cycleSet);
         int branchesCount = size();
-        int cyclesCount = cs.size();
+        int cyclesCount = cycleSet.size();
         ArrayList<Double> answer = new ArrayList<>();
 
         for (int i = 0; i < branchesCount; i++) {
             answer.add(0.0);
 
             for (int j = 0; j < cyclesCount; j++) {
-                double current = answer.get(i) + cs.get(j).hasBranch(get(i)) * contourCurrents.get(j);
-                current = DoubleFormatter.round(current, 2);
+                double current = answer.get(i) + cycleSet.get(j).hasBranch(get(i)) * contourCurrents.get(j);
+                current = DoubleFormatter.round(current, 4);
                 answer.set(i, current);
             }
         }
@@ -155,11 +164,10 @@ public class ElectricalCircuit implements Iterable<Branch> {
      * @return Контурные токи
      */
     public ArrayList<Double> getContourCurrents() {
-        CycleSet cs = new CycleSet(this);
-        SLE sle = new SLE(cs, this);
-        ArrayList<Double> contourCurrents = sle.solve(cs);
+        SLE sle = new SLE(cycleSet, this);
+        ArrayList<Double> contourCurrents = sle.solve(cycleSet);
 
-        contourCurrents.replaceAll(value -> DoubleFormatter.round(value, 2));
+        contourCurrents.replaceAll(value -> DoubleFormatter.round(value, 4));
 
         return contourCurrents;
     }
@@ -177,7 +185,7 @@ public class ElectricalCircuit implements Iterable<Branch> {
     @SuppressWarnings("MethodDoesntCallSuperMethod")
     @Override
     public ElectricalCircuit clone() {
-        ElectricalCircuit newEC = new ElectricalCircuit();
+        ElectricalCircuit newEC = new ElectricalCircuit(cycleSet);
 
         for (Branch b: branches) {
             newEC.addBranch(b.clone());

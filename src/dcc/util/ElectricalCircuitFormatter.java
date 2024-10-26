@@ -1,7 +1,6 @@
 package dcc.util;
 
 import dcc.elements.Cycle;
-import dcc.elements.CycleSet;
 import dcc.elements.ElectricalCircuit;
 
 public class ElectricalCircuitFormatter {
@@ -32,18 +31,16 @@ public class ElectricalCircuitFormatter {
           .append(ec.isCircuitContinuous() ? "Цепь замкнута\n" : "Цепь не замкнута\n")
           .append(ec.hasNoBridges() ? "Цепь не имеет мостов\n" : "Цепь содержит мосты\n");
 
-        CycleSet cs = new CycleSet(ec);
-
         sb.append(SEPARATOR)
           .append("Подходящая система циклов\n");
-        for (Cycle cycle: cs) {
+        for (Cycle cycle: ec.getCycleSet()) {
             sb.append(cycle)
               .append('\n');
        }
 
         sb.append(SEPARATOR)
           .append("Система линейных уравнений\n");
-        SLE sle = new SLE(cs, ec);
+        SLE sle = new SLE(ec.getCycleSet(), ec);
         sb.append(sle);
 
         String contourCurrentsString = ec.getContourCurrents().toString();
