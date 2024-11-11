@@ -51,7 +51,8 @@ import dcc.elements.ElectricalCircuit;
 ElectricalCircuit ec = new ElectricalCircuit(branches);
 ```
 
->Теперь при помощи встроенных методов можно получить характеристики цепи:
+> [!TIP]
+> Теперь при помощи встроенных методов можно получить характеристики цепи:
 >
 > - isCircuitContinuous()
 > - hasNoBridges()
